@@ -24,12 +24,17 @@ class FilamentPanelProvider extends PanelProvider
             ->id('default')
             ->default()
             ->path('filament')
-            ->homeUrl(fn (): string => match (auth()->user()->role ?? null) {
-                'coordenador' => route('filament.default.pages.coordenador-dashboard'),
-                'secretaria' => route('filament.default.pages.secretaria-dashboard'),
-                'professor' => route('filament.default.pages.professor-dashboard'),
-                default => route('filament.default.home'),
-            })
+            ->login()
+            ->homeUrl(fn (): string => (
+                auth()->check()
+                    ? match (auth()->user()->role ?? null) {
+                        'coordenador' => route('filament.default.pages.coordenador-dashboard'),
+                        'secretaria' => route('filament.default.pages.secretaria-dashboard'),
+                        'professor' => route('filament.default.pages.professor-dashboard'),
+                        default => route('filament.default.home'),
+                    }
+                    : url('/filament/login')
+            ))
             ->resources([
                 BookResource::class,
                 UserResource::class,

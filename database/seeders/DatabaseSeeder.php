@@ -17,39 +17,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        // Use updateOrCreate to avoid unique constraint errors when seeding multiple times
+        User::updateOrCreate([
+            're' => 'RE00001',
+        ], [
             'name' => 'Coordenador Teste',
             'email' => 'coordenador@senai.local',
-            're' => 'RE00001',
             'role' => 'coordenador',
             'materia' => null,
             'active' => true,
             'password' => Hash::make('password'),
         ]);
 
-        User::factory()->create([
+        User::updateOrCreate([
+            're' => 'RE00002',
+        ], [
             'name' => 'Secretária Teste',
             'email' => 'secretaria@senai.local',
-            're' => 'RE00002',
             'role' => 'secretaria',
             'materia' => null,
             'active' => true,
             'password' => Hash::make('password'),
         ]);
 
-        User::factory()->create([
+        User::updateOrCreate([
+            're' => 'RE00003',
+        ], [
             'name' => 'Professor Teste',
             'email' => 'professor@senai.local',
-            're' => 'RE00003',
             'role' => 'professor',
             'materia' => 'Matemática',
             'active' => true,
             'password' => Hash::make('password'),
         ]);
 
-        Book::create([
-            'title' => 'Álgebra Básica',
+        Book::updateOrCreate([
             'isbn' => '978-1234567890',
+        ], [
+            'title' => 'Álgebra Básica',
             'materia' => 'Matemática',
             'curso' => 'Técnico em Informática',
             'editora' => 'Editora SENAI',
@@ -58,9 +63,10 @@ class DatabaseSeeder extends Seeder
             'active' => true,
         ]);
 
-        Book::create([
-            'title' => 'Português Técnico',
+        Book::updateOrCreate([
             'isbn' => '978-0987654321',
+        ], [
+            'title' => 'Português Técnico',
             'materia' => 'Língua Portuguesa',
             'curso' => 'Técnico em Química',
             'editora' => 'Editora SENAI',
